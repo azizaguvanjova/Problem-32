@@ -8,7 +8,7 @@ import {
 import Image from 'next/image'
 import { createContext, useContext } from 'react'
 
-const AuthContext = createContext(false)
+const AuthContext = createContext({isAuthenticated: true})
 
 export default function Header() {
 const isAuthenticated = useContext(AuthContext)
@@ -18,33 +18,31 @@ const isAuthenticated = useContext(AuthContext)
       <nav className='flex flex-1 flex-col'>
         <ul role='list' className='flex flex-1 flex-col gap-y-7'>
           <Links isAuthenticated={isAuthenticated} />
-          <Avatar />
+          {isAuthenticated && <Avatar />}
         </ul>
       </nav>
     </div>
   )
 }
 
+const authLinks = [
+  { name: 'Dashboard', href: '#', icon: HomeIcon, count: '5', current: true },
+  { name: 'Team', href: '#', icon: UsersIcon, current: false },
+  {
+    name: 'Projects',
+    href: '#',
+    icon: FolderIcon,
+    count: '12',
+    current: false,
+  },
+]
+
+const unAuthLinks = [
+  { name: 'Log in', href: '#', icon: KeyIcon, current: false },
+];
+
 function Links({isAuthenticated}) {
-  const authLinks = [
-    { name: 'Dashboard', href: '#', icon: HomeIcon, count: '5', current: true },
-    { name: 'Team', href: '#', icon: UsersIcon, current: false },
-    {
-      name: 'Projects',
-      href: '#',
-      icon: FolderIcon,
-      count: '12',
-      current: false,
-    },
-  ]
-  const unAuthLinks = [
-    {
-      name: 'Log in',
-      href: '#',
-      icon: KeyIcon,
-      current: false,
-    },
-  ]
+ 
  const linksToDisplay = isAuthenticated? authLinks: unAuthLinks
   return (
     <li>
